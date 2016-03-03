@@ -1,1 +1,0 @@
-# lcpj-overflow-challenge
