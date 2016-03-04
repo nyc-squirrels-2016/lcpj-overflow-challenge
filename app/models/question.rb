@@ -6,4 +6,12 @@ class Question < ActiveRecord::Base
 	validates :title, presence: true
 	validates :body, presence: true
 	validates :user, presence: true
+
+  def has_not_been_rated_by_user(user)
+   !self.votes.find_by(user: user)
+  end
+
+  def vote_count
+    self.votes.sum(:direction_value)
+  end
 end
