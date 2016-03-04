@@ -1,4 +1,12 @@
 <h1><%= @question.title %></h1>
 <p><%= @question.body %></p>
 <p><%= link_to "Edit", edit_question_path(@question)%></p>
+<p><%= link_to "Add a Comment", new_question_comment_path(question_id: @question.id)%></p>
+
+<% if @question.comments.any? %>
+  <%@question.comments.each do |comment| %>
+    <p><%= comment.body %></p>
+    <p>++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</p>
+  <%end%>
+<%end%>
 
