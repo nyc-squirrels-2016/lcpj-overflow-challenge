@@ -1,6 +1,6 @@
 class Answer < ActiveRecord::Base
 	belongs_to :user
-	belongs_to :question
+	belongs_to :question, touch: true
 	has_many :comments, as: :commentable, dependent: :destroy
 	has_many :votes, as: :votable, dependent: :destroy
 	validates :body, presence: true
