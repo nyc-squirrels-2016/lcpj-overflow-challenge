@@ -41,10 +41,6 @@ class CommentsController < ApplicationController
     end
   end
 
-  def answer_new
-  end
-
-
   private
   def comment_params
     params.require(:comment).permit(:body)

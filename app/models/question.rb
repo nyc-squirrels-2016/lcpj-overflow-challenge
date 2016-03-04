@@ -14,4 +14,9 @@ class Question < ActiveRecord::Base
   def vote_count
     self.votes.sum(:direction_value)
   end
+
+  def self.trending
+    Question.all.order(updated_at: :desc).limit(5)
+  end
+
 end
