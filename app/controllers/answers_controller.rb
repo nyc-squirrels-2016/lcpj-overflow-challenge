@@ -7,10 +7,9 @@ class AnswersController < ApplicationController
 
   def create
     if logged_in?
-      question = Question.find(params[:question_id])
+      question = Question.find(params[:answer][:question_id])
       @answer = question.answers.new(answer_params)
-      @answer.user_id = session[:user_id]
-      @answer.question_id = question.id
+      @answer.user = current_user
       if @answer.save
         redirect_to question_path(question)
       else
@@ -30,10 +29,10 @@ class AnswersController < ApplicationController
   end
 
   def update
-    find_question_for_answer
+    @answer = Answer.find(params[:id])
     if logged_in? && @answer.user.id == current_user.id
       if @answer.update(answer_params)
-        redirect_to question_path(@question)
+        redirect_to question_path(@answer.question)
       else
         # @errors = @answer.errors.full_messages
         render :edit
@@ -44,10 +43,10 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    find_question_for_answer
-    if logged_in? &&& @answer.user.id == current_user.id
+    @answer = Answer.find(params[:id])
+    if logged_in? && @answer.user.id == current_user.id
       @answer.destroy
-      redirect_to question_path(@question)
+      redirect_to question_path(@answer.question)
     else
       redirect_to login_path
     end
@@ -59,8 +58,8 @@ class AnswersController < ApplicationController
     params.require(:answer).permit(:body)
   end
 
-  def find_question_for_answer
-    @question = Question.find(params[:question_id])
-    @answer = Answer.find(params[:id])
-  end
+  # def find_question_for_answer
+  #   @question = Question.find(params[:question_id])
+  #   @answer = Answer.find(params[:id])
+  # end
 end

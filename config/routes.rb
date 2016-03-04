@@ -7,7 +7,9 @@ Rails.application.routes.draw do
 
   resource :sessions, only: [:create]
   resource :users, only: [:create]
-  resource :answer, except: [:show]
+  resources :answers, except: [:show] do
+    resources :comments, only: [:new, :create]
+  end
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'

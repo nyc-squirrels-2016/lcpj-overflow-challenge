@@ -4,10 +4,20 @@
   <p><%= error %></p>
 <%end%>
 <%end%>
-<%= form_for [@question, @comment] do |f| %>
-  <div>
-  <%= f.label :body %>
-  <%= f.text_area :body %>
-  </div>
-  <%= f.submit "Create Comment" %>
+<%if @question%>
+  <%= form_for [@question, @comment] do |f| %>
+    <div>
+    <%= f.label :body %>
+    <%= f.text_area :body %>
+    </div>
+    <%= f.submit "Create Comment" %>
+  <%end%>
+<%else%>
+  <%= form_for [@answer, @comment] do |f| %>
+    <div>
+    <%= f.label :body %>
+    <%= f.text_area :body %>
+    </div>
+    <%= f.submit "Create Comment" %>
+  <%end%>
 <%end%>

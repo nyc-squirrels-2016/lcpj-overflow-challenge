@@ -1,8 +1,8 @@
 <h1><%= @question.title %></h1>
 <p><%= @question.body %></p>
 <p><%= link_to "Edit", edit_question_path(@question)%></p>
-<p><%= link_to "Add a Comment", new_question_comment_path(question_id: @question.id)%></p>
-
+<p><%= link_to "Add a Comment", new_question_comment_path(@question)%></p>
+<h2>Comments on Question</h2>
 <% if @question.comments.any? %>
   <%@question.comments.each do |comment| %>
     <p><%= comment.body %></p>
@@ -10,3 +10,30 @@
   <%end%>
 <%end%>
 
+<h1>New Answer</h1>
+<%= form_for @answer do |f| %>
+   <%= f.label :body %>
+   <%= f.text_field :body %>
+   <%= f.hidden_field :question_id, :value => @question.id%>
+   <%= f.submit %>
+<% end %>
+<h1>Answers</h1>
+<% if @question.answers.any? %>
+  <%@question.answers.each do |answer| %>
+    <p><%= answer.body %></p>
+    <%if answer.user %>
+    <p><%= answer.user.username %></p>
+    <%= link_to "Edit" , edit_answer_path(answer)%>
+    <%end%>
+    <%= link_to "Add a Comment", new_answer_comment_path(answer)%>
+    <h4>Answer Comments</h4>
+    <%if answer.comments.any?%>
+    <% answer.comments.each do |comment|%>
+      <p><%= comment.body %></p>
+      <p><%= comment.user.username %></p>
+      <p>++++++++++++++++++++++++++++++++++++++++++</p>
+      <%end%>
+    <%end%>
+    <p>++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</p>
+  <%end%>
+<%end%>
