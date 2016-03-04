@@ -39,6 +39,8 @@ group :development, :test do
   gem 'launchy'
   gem 'pry-rails'
   gem 'table_print'
+  gem 'capybara'
+  gem 'shoulda-matchers', '~> 2.5.0'
 end
 
 group :development do
