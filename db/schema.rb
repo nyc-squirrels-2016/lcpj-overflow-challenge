@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 20160304012532) do
     t.integer  "direction_value", null: false
     t.integer  "votable_id"
     t.string   "votable_type"
+    t.integer  "user_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end
