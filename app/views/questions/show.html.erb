@@ -1,7 +1,17 @@
 <h1><%= @question.title %></h1>
 <p><%= @question.body %></p>
+<p>Votes: <%= @question.vote_count %></p>
 <p><%= link_to "Edit", edit_question_path(@question)%></p>
 <p><%= link_to "Add a Comment", new_question_comment_path(@question)%></p>
+<%= form_for [@question, @vote] do |f| %>
+  <%= f.hidden_field :question_id, :value => @question.id%>
+  <%= f.select (:direction_value) do %>
+    <% [['Upvote', 1],['Downvote', -1]].each do |c| -%>
+      <%= content_tag(:option, c.first, value: c.last) %>
+      <% end %>
+    <% end %>
+  <%= f.submit %>
+<% end %>
 <h2>Comments on Question</h2>
 <% if @question.comments.any? %>
   <%@question.comments.each do |comment| %>
@@ -21,8 +31,18 @@
 <% if @question.answers.any? %>
   <%@question.answers.each do |answer| %>
     <p><%= answer.body %></p>
+    <p><%= answer.vote_count %></p>
     <%if answer.user %>
     <p><%= answer.user.username %></p>
+    <%= form_for [answer, @vote] do |f| %>
+      <%= f.hidden_field :answer_id, :value => answer.id%>
+      <%= f.select (:direction_value) do %>
+        <% [['Upvote', 1],['Downvote', -1]].each do |c| -%>
+          <%= content_tag(:option, c.first, value: c.last) %>
+          <% end %>
+        <% end %>
+      <%= f.submit %>
+    <% end %>
     <%= link_to "Edit" , edit_answer_path(answer)%>
     <%end%>
     <%= link_to "Add a Comment", new_answer_comment_path(answer)%>
