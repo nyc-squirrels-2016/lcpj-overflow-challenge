@@ -23,7 +23,7 @@
 <h1>New Answer</h1>
 <%= form_for @answer do |f| %>
    <%= f.label :body %>
-   <%= f.text_field :body %>
+   <%= f.text_area :body %>
    <%= f.hidden_field :question_id, :value => @question.id%>
    <%= f.submit %>
 <% end %>
@@ -31,7 +31,7 @@
 <% if @question.answers.any? %>
   <%@question.answers.each do |answer| %>
     <p><%= answer.body %></p>
-    <p><%= answer.vote_count %></p>
+    <p>Votes: <%= answer.vote_count %></p>
     <%if answer.user %>
     <p><%= answer.user.username %></p>
     <%= form_for [answer, @vote] do |f| %>

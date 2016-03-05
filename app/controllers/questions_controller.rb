@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   def index
-    @questions = Question.all.order(created_at: :desc)
+    @questions = Question.includes(:user).all.order(created_at: :desc)
   end
 
   def trending
@@ -31,7 +31,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @question = Question.includes(:answers, :user).find(params[:id])
+    @question = Question.includes(:answers, :user, :comments).find(params[:id])
     @answer = Answer.new
     @vote = Vote.new
   end

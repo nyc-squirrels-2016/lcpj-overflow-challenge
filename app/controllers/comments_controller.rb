@@ -10,34 +10,16 @@ class CommentsController < ApplicationController
   end
 
   def create
-    if params[:question_id]
-      if logged_in?
+    if logged_in?
+      if params[:question_id]
         @question = Question.find(params[:question_id])
-        @comment = @question.comments.new(comment_params)
-        @comment.user = current_user
-        if @comment.save
-          redirect_to question_path(params[:question_id])
-        else
-          @errors = @question.errors.full_messages
-          render :new
-        end
+        create_question_comments(@question)
       else
-        redirect_to login_path
+        @answer = Answer.find(params[:answer_id])
+        create_answer_comments(@answer)
       end
     else
-      if logged_in?
-        @answer = Answer.find(params[:answer_id])
-        @comment = @answer.comments.new(comment_params)
-        @comment.user = current_user
-        if @comment.save
-          redirect_to question_path(@answer.question)
-        else
-          @errors = @answer.errors.full_messages
-          render :new
-        end
-      else
-        redirect_to login_path
-      end
+      redirect_to login_path
     end
   end
 
@@ -45,4 +27,27 @@ class CommentsController < ApplicationController
   def comment_params
     params.require(:comment).permit(:body)
   end
+
+  def create_question_comments(value)
+    @comment = value.comments.new(comment_params)
+    @comment.user = current_user
+    if @comment.save
+      redirect_to question_path(params[:question_id])
+    else
+      @errors = @question.errors.full_messages
+      render :new
+    end
+  end
+
+  def create_answer_comments(value)
+    @comment = value.comments.new(comment_params)
+    @comment.user = current_user
+    if @comment.save
+      redirect_to question_path(value.question)
+    else
+      @errors = @answer.errors.full_messages
+      render :new
+    end
+  end
+
 end

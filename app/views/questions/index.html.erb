@@ -2,10 +2,10 @@
 <%= link_to "Create Question", new_question_path %>
 <h2>Top Questions</h2>
 <%if @questions.any? %>
-<% @questions.each do |question| %>
-<h4><%= link_to question.title, question%></h4>
-<p><%= question.body %></p>
-<p>By: <%= question.user.username %></p>
-<p>+++++++++++++++++++++++++++++++++++++++++++++++++++++++++</p>
-<%end%>
+	<% @questions.each do |question| %>
+		<h4><%= link_to question.title, question%></h4>
+		<p><%= question.body %></p>
+		<p>By: <%= question.user.username %></p>
+		<p>+++++++++++++++++++++++++++++++++++++++++++++++++++++++++</p>
+	<%end%>
 <%end%>
