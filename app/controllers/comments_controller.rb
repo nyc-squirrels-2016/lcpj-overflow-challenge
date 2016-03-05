@@ -13,10 +13,10 @@ class CommentsController < ApplicationController
     if logged_in?
       if params[:question_id]
         @question = Question.find(params[:question_id])
-        create_question_comments(@question)
+        create_comments(@question)
       else
         @answer = Answer.find(params[:answer_id])
-        create_answer_comments(@answer)
+        create_comments(@answer)
       end
     else
       redirect_to login_path
@@ -28,22 +28,15 @@ class CommentsController < ApplicationController
     params.require(:comment).permit(:body)
   end
 
-  def create_question_comments(value)
+  def create_comments(value)
     @comment = value.comments.new(comment_params)
     @comment.user = current_user
     if @comment.save
-      redirect_to question_path(params[:question_id])
-    else
-      @errors = @question.errors.full_messages
-      render :new
-    end
-  end
-
-  def create_answer_comments(value)
-    @comment = value.comments.new(comment_params)
-    @comment.user = current_user
-    if @comment.save
-      redirect_to question_path(value.question)
+      if value.is_a?(Answer)
+        redirect_to question_path(value.question)
+      else
+        redirect_to question_path(params[:question_id])
+      end
     else
       @errors = @answer.errors.full_messages
       render :new
