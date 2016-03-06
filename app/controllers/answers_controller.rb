@@ -13,8 +13,7 @@ class AnswersController < ApplicationController
       if @answer.save
         redirect_to question_path(question)
       else
-        # @errors = @answer.errors.full_messages
-        render :new
+        redirect_to question_path(question)
       end
     else
       redirect_to login_path
