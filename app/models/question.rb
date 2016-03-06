@@ -16,7 +16,7 @@ class Question < ActiveRecord::Base
   end
 
   def self.trending
-    Question.all.order(updated_at: :desc).limit(5)
+    Question.includes(:user).all.order(updated_at: :desc).limit(5)
   end
 
 end

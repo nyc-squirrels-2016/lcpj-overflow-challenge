@@ -1,11 +1,14 @@
-<h1>lcpj Stack Overflow</h1>
-<%= link_to "Create Question", new_question_path %>
-<h2>Top Questions</h2>
+<h1 class="header" >lcpj Stack Overflow</h1>
+<%= link_to "Create Question", new_question_path, :class => "create-link" %>
+<h2 class="header">Top Questions</h2>
+<div class="main-questions"> 
 <%if @questions.any? %>
-<% @questions.each do |question| %>
-<h4><%= link_to question.title, question%></h4>
-<p><%= question.body %></p>
-<p>By: <%= question.user.username %></p>
-<p>+++++++++++++++++++++++++++++++++++++++++++++++++++++++++</p>
+	<% @questions.each do |question| %>
+		<div class="question">
+		<h4><%= link_to question.title, question%></h4>
+		<p><%= question.body %></p>
+		<p>By: <%= question.user.username %></p>
+		</div>
+	<%end%>
 <%end%>
-<%end%>
+</div>

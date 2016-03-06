@@ -1,59 +1,77 @@
-<h1><%= @question.title %></h1>
+<h1 class="header"><%= @question.title %></h1>
+<div class="question-stuff">
 <p><%= @question.body %></p>
 <p>Votes: <%= @question.vote_count %></p>
 <p><%= link_to "Edit", edit_question_path(@question)%></p>
 <p><%= link_to "Add a Comment", new_question_comment_path(@question)%></p>
-<%= form_for [@question, @vote] do |f| %>
-  <%= f.hidden_field :question_id, :value => @question.id%>
-  <%= f.select (:direction_value) do %>
-    <% [['Upvote', 1],['Downvote', -1]].each do |c| -%>
-      <%= content_tag(:option, c.first, value: c.last) %>
+<div class="question-vote">
+  <%= form_for [@question, @vote] do |f| %>
+    <%= f.hidden_field :question_id, :value => @question.id%>
+    <%= f.select (:direction_value) do %>
+      <% [['Upvote', 1],['Downvote', -1]].each do |c| -%>
+        <%= content_tag(:option, c.first, value: c.last) %>
+        <% end %>
       <% end %>
-    <% end %>
-  <%= f.submit %>
-<% end %>
-<h2>Comments on Question</h2>
+    <%= f.submit %>
+  <% end %>
+</div>
+</div>
+<h2 class="header">Comments on Question</h2>
 <% if @question.comments.any? %>
+  <div class="comments-container">
   <%@question.comments.each do |comment| %>
-    <p><%= comment.body %></p>
-    <p>++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</p>
+    <div class="comment">
+      <p><%= comment.body %></p>
+      <p><%= comment.user.username%></p>
+    </div>
   <%end%>
+  </div>
 <%end%>
 
-<h1>New Answer</h1>
-<%= form_for @answer do |f| %>
-   <%= f.label :body %>
-   <%= f.text_field :body %>
-   <%= f.hidden_field :question_id, :value => @question.id%>
-   <%= f.submit %>
-<% end %>
-<h1>Answers</h1>
+<h1 class="header">New Answer</h1>
+<div class="answer-form">
+  <%= form_for @answer do |f| %>
+     <%= f.label :body %>
+     <%= f.text_area :body %>
+     <%= f.hidden_field :question_id, :value => @question.id%>
+     <%= f.submit %>
+  <% end %>
+</div>
+<h1 class="header">Answers</h1>
 <% if @question.answers.any? %>
+<div class="answers-container">
   <%@question.answers.each do |answer| %>
-    <p><%= answer.body %></p>
-    <p><%= answer.vote_count %></p>
-    <%if answer.user %>
-    <p><%= answer.user.username %></p>
-    <%= form_for [answer, @vote] do |f| %>
-      <%= f.hidden_field :answer_id, :value => answer.id%>
-      <%= f.select (:direction_value) do %>
-        <% [['Upvote', 1],['Downvote', -1]].each do |c| -%>
-          <%= content_tag(:option, c.first, value: c.last) %>
-          <% end %>
+    <div class="answer">
+      <p><%= answer.body %></p>
+      <p>Votes: <%= answer.vote_count %></p>
+      <%if answer.user %>
+      <p><%= answer.user.username %></p>
+      <div class="answer-vote">
+        <%= form_for [answer, @vote] do |f| %>
+          <%= f.hidden_field :answer_id, :value => answer.id%>
+          <%= f.select (:direction_value) do %>
+            <% [['Upvote', 1],['Downvote', -1]].each do |c| -%>
+              <%= content_tag(:option, c.first, value: c.last) %>
+              <% end %>
+            <% end %>
+          <%= f.submit %>
         <% end %>
-      <%= f.submit %>
-    <% end %>
-    <%= link_to "Edit" , edit_answer_path(answer)%>
-    <%end%>
-    <%= link_to "Add a Comment", new_answer_comment_path(answer)%>
-    <h4>Answer Comments</h4>
-    <%if answer.comments.any?%>
-    <% answer.comments.each do |comment|%>
-      <p><%= comment.body %></p>
-      <p><%= comment.user.username %></p>
-      <p>++++++++++++++++++++++++++++++++++++++++++</p>
+      </div>
+      <%= link_to "Edit" , edit_answer_path(answer)%>
       <%end%>
-    <%end%>
-    <p>++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</p>
+      <%= link_to "Add a Comment", new_answer_comment_path(answer)%>
+      <h4 class="header">Answer Comments</h4>
+        <%if answer.comments.any?%>
+          <div class="comments-container">
+              <% answer.comments.each do |comment|%>
+              <div class="comment">
+                <p><%= comment.body %></p>
+                <p><%= comment.user.username %></p>
+              </div>
+            <%end%>
+          </div>
+      <%end%>
+    </div>
   <%end%>
+</div>
 <%end%>
