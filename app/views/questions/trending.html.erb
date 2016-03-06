@@ -1,13 +1,14 @@
 <h1 class="header" >lcpj Stack Overflow</h1>
 <%= link_to "Create Question", new_question_path, :class => "create-link" %>
 <h2 class="header">Trending Questions</h2>
-<div class="main-questions"> 
+<div class="main-questions">
 <%if @questions.any? %>
 	<% @questions.each do |question| %>
 		<div class="question">
 		<h4><%= link_to question.title, question%></h4>
 		<p><%= question.body %></p>
 		<p>By: <%= question.user.username %></p>
+    <p>Votes: <%= question.vote_count %></p>
 		</div>
 	<%end%>
 <%end%>
