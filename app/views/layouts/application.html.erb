@@ -11,8 +11,8 @@
   <nav>
     <ul>
       <%= link_to "overflow", root_path %>
+      <%= link_to "| Trending |", trending_path %>
       <% if session[:user_id] %>
-        <%= link_to "| Trending |", trending_path %>
         <%= link_to "| Logout |", logout_path %>
       <% else %>
         <%= link_to "| Login |", login_path %>
